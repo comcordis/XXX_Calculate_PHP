@@ -166,38 +166,28 @@ abstract class XXX_Calculate
 	
 	Based on Haversine formula
 	
-	http://www.movable-type.co.uk/scripts/gis-faq-5.1.html
-	http://www.postcode.nl/index/151/1/0/berekening-latitude-longitude.html
-	
 	**Not taking into account elevation differences.** (So only usable as an indication)
 	
 	*/
 	
-	public static function getDistanceBetweenCoordinates ($coordinate1, $coordinate2)
+	public static function getHaversineDistanceBetweenGeoPositions ($latitude1, $longitude1, $latitude2, $longitude2)
 	{
-		// Kilometers
-		$earthCirmcumference = 40075.16;
+		$theta = $longitude1 - $longitude2;
+		$distance = XXX_Number::sine(deg2rad($latitude1)) * XXX_Number::sine(deg2rad($latitude2));
+		$distance += (XXX_Number::cosine(deg2rad($latitude1)) * XXX_Number::cosine(deg2rad($latitude2)) * XXX_Number::cosine(deg2rad($theta)));
 		
-		// Convert degrees to radians
-		$coordinate1['latitude'] = ($coordinate1['latitude'] * XXX_Number::pi()) / 180;
-		$coordinate1['longitude'] = ($coordinate1['longitude'] * XXX_Number::pi()) / 180;
-		$coordinate2['latitude'] = ($coordinate2['latitude'] * XXX_Number::pi()) / 180;
-		$coordinate2['longitude'] = ($coordinate2['longitude'] * XXX_Number::pi()) / 180;
+		$distance = XXX_Number::arcCosine($distance);
+		$distance = rad2deg($distance);
 		
-		$a = XXX_Number::power(XXX_Number::sine($coordinate2['latitude'] - $coordinate1['latitude'] / 2), 2);
-		$b = XXX_Number::cosine($coordinate1['latitude']) * XXX_Number::cosine($coordinate2['latitude']);
-		$b *= XXX_Number::power(XXX_Number::sine($coordinate2['longitude'] - $coordinate1['longitude'] / 2), 2);
-		$a += $b;
-		$c = 2 * XXX_Number::arcSine(XXX_Number::lowest(1, XXX_Number::squareRoot($a)));
+		$distance = $distance * 60 * 1.1515;
 		
-		$earthRadius = ($earthCirmcumference / XXX_Number::pi()) / 2;
+		$distance = $distance * 1.609344;
 		
-		$distance = $earthRadius * $c;
+		$distance = $distance * 1000;
 		
 		return $distance;
 	}
-	
-		
+			
 	////////////////////
 	// Rectangle
 	////////////////////
