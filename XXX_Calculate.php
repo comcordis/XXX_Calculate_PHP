@@ -187,7 +187,7 @@ abstract class XXX_Calculate
 		
 		return $distance;
 	}
-			
+	
 	////////////////////
 	// Rectangle
 	////////////////////
