@@ -1,0 +1,6 @@
+project:XXX_Calculate_PHP
+deployEnvironment:development
+checkout:master
+commitHash:d714b661db96301d39e373d1e1327f5e2eb5f03d
+timestamp:2015-04-13T09:43:34Z
+deployer:operations
